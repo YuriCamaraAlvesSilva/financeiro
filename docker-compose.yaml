@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  db:
+    image: mysql
+    container_name: db
+    restart: always
+    environment:
+      - MYSQL_USER=yuri
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=financeiro
+      - MYSQL_PORT=3306
