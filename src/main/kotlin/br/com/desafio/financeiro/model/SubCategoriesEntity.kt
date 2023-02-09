@@ -11,5 +11,5 @@ data class SubCategoriesEntity(
         @GeneratedValue(strategy = GenerationType.AUTO)
         val idSubCategory: Int,
         val name: String,
-        val idCategory: String
+        val idCategory: Int
 )

@@ -9,6 +9,6 @@ import jakarta.persistence.Id
 data class CategoriesEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        val idCategory: Int,
+        val idCategory: Int?,
         val nome: String
 )

@@ -15,6 +15,6 @@ data class AccountEntryEntity(
         val value: Double,
         @DateTimeFormat()
         val date: LocalDate,
-        val idSubCategory: String,
+        val idSubCategory: Int,
         val comment: String?
 )
