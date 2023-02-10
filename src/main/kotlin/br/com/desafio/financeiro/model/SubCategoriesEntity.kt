@@ -8,8 +8,8 @@ import jakarta.persistence.Id
 @Entity
 data class SubCategoriesEntity(
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        val idSubCategory: Int,
-        val name: String,
-        val idCategory: Int
+        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        val idSubCategory: Int? = null,
+        val name: String = "",
+        val idCategory: Int? = null
 )

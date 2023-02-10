@@ -1,20 +1,21 @@
 package br.com.desafio.financeiro.controller
 
+import br.com.desafio.financeiro.component.AuthRequestValidatorComponent
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestAttribute
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
-class AuditController {
+@RequestMapping("/v1")
+class AuditController(val authRequestValidatorComponent: AuthRequestValidatorComponent) {
     @GetMapping("/audit")
     fun audit(
-            @RequestAttribute startDate: LocalDate,
-            @RequestAttribute endDate: LocalDate,
-            @RequestAttribute idCategory: Int?
+            @RequestParam startDate: LocalDate,
+            @RequestParam endDate: LocalDate,
+            @RequestParam idCategory: Int?,
+            @RequestHeader("api-key") apiKey: String
     ){
-        print("ok")
+        authRequestValidatorComponent.validateApiKey(apiKey)
         ResponseEntity.ok()
     }
 }

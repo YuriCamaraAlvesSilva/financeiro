@@ -1,4 +1,4 @@
 package br.com.desafio.financeiro.repository.customRepository
 
-class SubCategoriesCustomRepository {
+class SubCategoriesRepositoryImpl {
 }

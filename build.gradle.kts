@@ -43,5 +43,5 @@ tasks.withType<Test> {
 }
 
 application {
-	mainClass.set("src.main.kotlin.br.com.desafio.financeiro.Application.kt")
+	mainClass.set("br.com.desafio.financeiro.Application.kt")
 }

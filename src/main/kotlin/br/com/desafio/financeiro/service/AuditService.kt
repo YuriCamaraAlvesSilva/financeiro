@@ -1,7 +1,8 @@
 package br.com.desafio.financeiro.service
 
 import br.com.desafio.financeiro.model.AccountEntryEntity
-import br.com.desafio.financeiro.model.AuditEntity
+import br.com.desafio.financeiro.model.AuditDAO
+import br.com.desafio.financeiro.model.AuditDTO
 import br.com.desafio.financeiro.repository.SubCategoriesRepository
 import org.springframework.stereotype.Service
 
@@ -11,8 +12,8 @@ class AuditService(
         val subCategoriesRepository: SubCategoriesRepository,
         val categoryService: SubCategoryService
 ) {
-    fun getBalance(auditEntity: AuditEntity) {
-        val accountEntryEntity: AccountEntryEntity = accountEntryService.getAccountEntryById(1)
+    fun getBalance(auditDAO: AuditDAO): AuditDTO {
+        val accountEntryEntity: AccountEntryEntity = accountEntryService.getAccountEntryById(auditDAO.idCategory!!)
         var credit: Double = 0.0
         var debit: Double = 0.0
 
@@ -22,7 +23,7 @@ class AuditService(
             debit -= accountEntryEntity.value
         }
         val balance = credit - debit
-
+        return AuditDTO(credit, debit, balance)
 
     }
 }

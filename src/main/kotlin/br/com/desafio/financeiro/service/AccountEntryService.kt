@@ -11,8 +11,12 @@ class AccountEntryService(
         val subCategoryService: SubCategoryService
 ) {
     fun createAccountEntry(accountEntry: AccountEntryEntity) {
-        subCategoryService.getSubCategoryById(accountEntry.idSubCategory)
+        subCategoryService.getSubCategoryById(accountEntry.idSubCategory!!)
         accountEntryRepository.save(accountEntry)
+    }
+
+    fun getAllAccountEntry(): MutableIterable<AccountEntryEntity> {
+        return accountEntryRepository.findAll()
     }
 
     fun getAccountEntryById(id: Int): AccountEntryEntity {
@@ -24,7 +28,7 @@ class AccountEntryService(
     }
 
     fun updateAccountEntry(accountEntry: AccountEntryEntity) {
-        accountEntryRepository.findById(accountEntry.idAccountEntry).orElseThrow { AccountEntryNotFoundException() }
+        accountEntryRepository.findById(accountEntry.idAccountEntry!!).orElseThrow { AccountEntryNotFoundException() }
         accountEntryRepository.save(accountEntry)
     }
 }
