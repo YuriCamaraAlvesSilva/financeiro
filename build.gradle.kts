@@ -27,6 +27,12 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.squareup.retrofit:retrofit:1.9.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+//	implementation("org.springdoc:springdoc-openapi-ui:1.5.2")
+	implementation("org.springdoc:springdoc-openapi-kotlin:1.5.0")
+	implementation("org.hibernate:hibernate-validator:8.0.0.Final")
+	implementation("javax.servlet:javax.servlet-api:3.0.1")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -40,8 +46,4 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
-}
-
-application {
-	mainClass.set("br.com.desafio.financeiro.Application.kt")
 }

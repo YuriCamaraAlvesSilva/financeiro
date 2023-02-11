@@ -14,7 +14,7 @@ class AuthRequestValidatorComponent(
     fun validateApiKey(key: String) {
         logger.info("action=ValidatingApiKey")
         if (apiKey != key) {
-            logger.info("action=InvalidApiKey")
+            logger.info("action=ApiKeyIsInvalid")
             throw InvalidApiKeyException()
         }
     }

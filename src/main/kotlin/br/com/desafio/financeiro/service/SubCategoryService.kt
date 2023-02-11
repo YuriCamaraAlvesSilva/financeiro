@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class SubCategoryService(
-        val subCategoriesRepository: SubCategoriesRepository,
-        val categoriesService: CategoriesService
+        val subCategoriesRepository: SubCategoriesRepository//,
+        //val categoriesService: CategoriesService
 ) {
     fun createSubCategory(subCategory: SubCategoriesEntity) {
-        categoriesService.getCategoryById(subCategory.idCategory!!)
+        //categoriesService.getCategoryById(subCategory.idCategory!!)
 //        subCategoriesRepository.getSubCategoryByName(category.nome) ?: throw RuntimeException("Ja existe uma sub categoria de mesmo nome")
 
         subCategoriesRepository.save(subCategory)
@@ -32,7 +32,7 @@ class SubCategoryService(
     }
 
     fun deleteSubCategoriesFromCategory(idCategory: Int) {
-        // subCategoriesRepository.deleteAllByCategoryId(idCategory)
+        // subCategoriesRepositoryImpl.deleteAllByCategoryId(idCategory)
     }
 
     fun updateSubCategory(subCategory: SubCategoriesEntity) {

@@ -16,8 +16,8 @@ class CategoriesController(
     @GetMapping("/categories")
     fun getCategories(@RequestHeader("api-key") apiKey: String): ResponseEntity<MutableIterable<CategoriesEntity>> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        val categories = categoriesService.getAllCategories()
-        return ResponseEntity.ok().body(categories)
+        val body = categoriesService.getAllCategories()
+        return ResponseEntity.ok().body(body)
     }
 
     @GetMapping("/categories/{idCategory}")
@@ -26,37 +26,37 @@ class CategoriesController(
             @PathVariable("idCategory") idCategory: Int
     ): ResponseEntity<CategoriesEntity> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        val category = categoriesService.getCategoryById(idCategory)
-        return ResponseEntity.ok().body(category)
+        val body = categoriesService.getCategoryById(idCategory)
+        return ResponseEntity.ok().body(body)
     }
 
     @PostMapping("/categories")
     fun createCategory(
             @RequestHeader("api-key") apiKey: String,
             @RequestBody categoryEntity: CategoriesEntity
-    ): ResponseEntity<() -> Unit> {
+    ): ResponseEntity<CategoriesEntity> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        categoriesService.createCategory(categoryEntity)
-        return ResponseEntity.status(HttpStatus.CREATED).body({})
+        val body = categoriesService.createCategory(categoryEntity)
+        return ResponseEntity.status(HttpStatus.CREATED).body(body)
     }
 
     @PutMapping("/categories")
     fun updateCategory(
             @RequestHeader("api-key") apiKey: String,
             @RequestBody categoryEntity: CategoriesEntity
-    ): ResponseEntity.BodyBuilder {
+    ): ResponseEntity<CategoriesEntity> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        categoriesService.updateCategory(categoryEntity)
-        return ResponseEntity.ok()
+        val body = categoriesService.updateCategory(categoryEntity)
+        return ResponseEntity.ok().body(body)
     }
 
     @DeleteMapping("/categories/{idCategory}")
     fun deleteCategory(
             @RequestHeader("api-key") apiKey: String,
             @PathVariable("idCategory") idCategory: Int
-    ): ResponseEntity.BodyBuilder {
+    ): ResponseEntity<Unit> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        categoriesService.deleteCategory(idCategory)
-        return ResponseEntity.ok()
+        val body = categoriesService.deleteCategory(idCategory)
+        return ResponseEntity.ok().body(body)
     }
 }

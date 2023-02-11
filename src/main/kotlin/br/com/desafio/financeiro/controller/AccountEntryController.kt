@@ -3,11 +3,11 @@ package br.com.desafio.financeiro.controller
 import br.com.desafio.financeiro.component.AuthRequestValidatorComponent
 import br.com.desafio.financeiro.model.AccountEntryEntity
 import br.com.desafio.financeiro.service.AccountEntryService
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@RestController()
+@RestController
 @RequestMapping("/v1")
 class AccountEntryController(
         val authRequestValidatorComponent: AuthRequestValidatorComponent,
@@ -34,10 +34,10 @@ class AccountEntryController(
     fun createAccountEntry(
             @RequestHeader("api-key") apiKey: String,
             @RequestBody accountEntryEntity: AccountEntryEntity
-    ): ResponseEntity.BodyBuilder {
+    ): ResponseEntity<() -> Unit> {
         authRequestValidatorComponent.validateApiKey(apiKey)
         accountEntryService.createAccountEntry(accountEntryEntity)
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(CREATED).body({})
     }
 
     @PutMapping("/account-entry")

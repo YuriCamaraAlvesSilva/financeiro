@@ -1,1 +1,3 @@
 api-key: "aXRhw7o="
+database:
+  url: "jdbc:mysql://172.18.0.2:3306/financeiro"
