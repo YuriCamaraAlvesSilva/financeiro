@@ -34,29 +34,29 @@ class AccountEntryController(
     fun createAccountEntry(
             @RequestHeader("api-key") apiKey: String,
             @RequestBody accountEntryEntity: AccountEntryEntity
-    ): ResponseEntity<() -> Unit> {
+    ): ResponseEntity<AccountEntryEntity> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        accountEntryService.createAccountEntry(accountEntryEntity)
-        return ResponseEntity.status(CREATED).body({})
+        val body = accountEntryService.createAccountEntry(accountEntryEntity)
+        return ResponseEntity.status(CREATED).body(body)
     }
 
     @PutMapping("/account-entry")
     fun updateAccountEntry(
             @RequestHeader("api-key") apiKey: String,
             @RequestBody accountEntryEntity: AccountEntryEntity
-    ): ResponseEntity.BodyBuilder {
+    ): ResponseEntity<AccountEntryEntity> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        accountEntryService.updateAccountEntry(accountEntryEntity)
-        return ResponseEntity.ok()
+        val body = accountEntryService.updateAccountEntry(accountEntryEntity)
+        return ResponseEntity.ok().body(body)
     }
 
     @DeleteMapping("/account-entry/{idAccountEntry}")
     fun deleteAccountEntry(
             @RequestHeader("api-key") apiKey: String,
             @PathVariable("idAccountEntry") idAccountEntry: Int
-    ): ResponseEntity.BodyBuilder {
+    ) {
         authRequestValidatorComponent.validateApiKey(apiKey)
         accountEntryService.deleteAccountEntry(idAccountEntry)
-        return ResponseEntity.ok()
+        ResponseEntity.ok()
     }
 }

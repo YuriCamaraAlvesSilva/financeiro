@@ -10,7 +10,7 @@ import java.time.LocalDate
 @Entity
 data class AccountEntryEntity(
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE)
         val idAccountEntry: Int? = null,
         val value: Double = 0.0,
         val date: Date = Date.valueOf(LocalDate.now()),

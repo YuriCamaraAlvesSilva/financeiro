@@ -54,9 +54,9 @@ class CategoriesController(
     fun deleteCategory(
             @RequestHeader("api-key") apiKey: String,
             @PathVariable("idCategory") idCategory: Int
-    ): ResponseEntity<Unit> {
+    ) {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        val body = categoriesService.deleteCategory(idCategory)
-        return ResponseEntity.ok().body(body)
+        categoriesService.deleteCategory(idCategory)
+        ResponseEntity.ok()
     }
 }

@@ -35,20 +35,20 @@ class SubCategoriesController(
     fun createSubCategory(
             @RequestHeader("api-key") apiKey: String,
             @RequestBody subCategoriesEntity: SubCategoriesEntity
-    ): ResponseEntity.BodyBuilder {
+    ): ResponseEntity<SubCategoriesEntity> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        subCategoryService.createSubCategory(subCategoriesEntity)
-        return ResponseEntity.status(CREATED)
+        val body = subCategoryService.createSubCategory(subCategoriesEntity)
+        return ResponseEntity.status(CREATED).body(body)
     }
 
     @PutMapping("/sub-categories")
     fun updateSubCategory(
             @RequestHeader("api-key") apiKey: String,
             @RequestBody subCategoriesEntity: SubCategoriesEntity
-    ): ResponseEntity.BodyBuilder {
+    ): ResponseEntity<SubCategoriesEntity> {
         authRequestValidatorComponent.validateApiKey(apiKey)
-        subCategoryService.updateSubCategory(subCategoriesEntity)
-        return ResponseEntity.ok()
+        val body = subCategoryService.updateSubCategory(subCategoriesEntity)
+        return ResponseEntity.ok(body)
     }
 
 }

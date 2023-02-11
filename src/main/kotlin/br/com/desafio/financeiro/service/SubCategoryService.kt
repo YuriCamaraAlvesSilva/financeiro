@@ -1,22 +1,29 @@
 package br.com.desafio.financeiro.service
 
+import br.com.desafio.financeiro.component.CategoryComponent
+import br.com.desafio.financeiro.component.SubCategoryComponent
+import br.com.desafio.financeiro.exception.SubCategoryCreateException
 import br.com.desafio.financeiro.exception.SubCategoryNotFoundException
-import br.com.desafio.financeiro.model.CategoriesEntity
 import br.com.desafio.financeiro.model.SubCategoriesEntity
-import br.com.desafio.financeiro.repository.CategoriesRepository
 import br.com.desafio.financeiro.repository.SubCategoriesRepository
 import org.springframework.stereotype.Service
+import java.util.logging.Logger
 
 @Service
 class SubCategoryService(
-        val subCategoriesRepository: SubCategoriesRepository//,
-        //val categoriesService: CategoriesService
+        val subCategoriesRepository: SubCategoriesRepository,
+        val subCategoryComponent: SubCategoryComponent,
+        val categoryComponent: CategoryComponent
 ) {
-    fun createSubCategory(subCategory: SubCategoriesEntity) {
-        //categoriesService.getCategoryById(subCategory.idCategory!!)
-//        subCategoriesRepository.getSubCategoryByName(category.nome) ?: throw RuntimeException("Ja existe uma sub categoria de mesmo nome")
+    val logger: Logger = Logger.getLogger(javaClass.name)
 
-        subCategoriesRepository.save(subCategory)
+    fun createSubCategory(subCategory: SubCategoriesEntity): SubCategoriesEntity {
+        categoryComponent.getCategoryWithId(subCategory.idCategory!!)
+        if (subCategoryComponent.hasSubCategoryWithName(subCategory.name)) {
+            throw SubCategoryCreateException()
+        }
+        logger.info("action=SavingNewSubCategory, name=${subCategory.name}")
+        return subCategoriesRepository.save(subCategory)
     }
 
     fun getSubCategoryById(id: Int): SubCategoriesEntity? {
@@ -27,16 +34,14 @@ class SubCategoryService(
         return subCategoriesRepository.findAll()
     }
 
-    fun deleteSubCategory(id: Int) {
-        subCategoriesRepository.deleteById(id)
+    fun deleteAllSubCategoriesByCategoryId(id: Int) {
+        val idsToDelete = subCategoryComponent.getIdsToDeleteSubCategoriesFromCategory(id)
+        return subCategoriesRepository.deleteAllById(idsToDelete)
     }
 
-    fun deleteSubCategoriesFromCategory(idCategory: Int) {
-        // subCategoriesRepositoryImpl.deleteAllByCategoryId(idCategory)
-    }
 
-    fun updateSubCategory(subCategory: SubCategoriesEntity) {
+    fun updateSubCategory(subCategory: SubCategoriesEntity): SubCategoriesEntity {
         subCategoriesRepository.findById(subCategory.idSubCategory!!).orElseThrow { SubCategoryNotFoundException() }
-        subCategoriesRepository.save(subCategory)
+        return subCategoriesRepository.save(subCategory)
     }
 }

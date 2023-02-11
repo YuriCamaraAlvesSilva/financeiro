@@ -1,40 +1,37 @@
 package br.com.desafio.financeiro.repository.customRepository
 
+import br.com.desafio.financeiro.configuration.MySqlConfiguration
 import br.com.desafio.financeiro.model.SubCategoriesEntity
-import org.springframework.beans.factory.annotation.Value
-import java.sql.Connection
-import java.sql.DriverManager
-import java.util.*
 
 
 class SubCategoriesRepositoryImpl(
-        @Value("\${database.url}") val databaseUrl: String = ""
+        mySqlConfiguration: MySqlConfiguration
 ) {
-    fun findBy(field: String, source: String): MutableList<SubCategoriesEntity> {
-        val properties = Properties()
+    private val connection = mySqlConfiguration.getConnection()
 
-        with(properties) {
-            put("user", "root")
-            put("password", "")
-        }
-
-        val result: MutableList<SubCategoriesEntity> = DriverManager
-                .getConnection(databaseUrl, properties)
-                .use { connection ->
-                    queryRows(connection, field, source)
-                }
-        return result
-    }
-
-    private fun queryRows(connection: Connection, field: String, source: String): MutableList<SubCategoriesEntity> {
+    fun findByName(source: String): MutableList<SubCategoriesEntity> {
         val result: MutableList<SubCategoriesEntity> = mutableListOf()
-        val query = "SELECT * FROM sub_categories_entity WHERE $field LIKE $source"
+        val query = "SELECT * FROM sub_categories_entity WHERE name LIKE \'$source\'"
         val rs = connection.createStatement().executeQuery(query)
         while (rs.next()) {
             result.add(SubCategoriesEntity(
-                    idSubCategory = rs.getInt("id_sub_category"),
+                    idCategory = rs.getInt("id_category"),
                     name = rs.getString("name"),
-                    idCategory = rs.getInt("id_category")
+                    idSubCategory = rs.getInt("id_sub_category")
+            ))
+        }
+        return result
+    }
+
+    fun findAllByIdCategory(source: Int): MutableList<SubCategoriesEntity> {
+        val result: MutableList<SubCategoriesEntity> = mutableListOf()
+        val query = "SELECT * FROM sub_categories_entity WHERE id_category LIKE $source"
+        val rs = connection.createStatement().executeQuery(query)
+        while (rs.next()) {
+            result.add(SubCategoriesEntity(
+                    idCategory = rs.getInt("id_category"),
+                    name = rs.getString("name"),
+                    idSubCategory = rs.getInt("id_sub_category")
             ))
         }
         return result

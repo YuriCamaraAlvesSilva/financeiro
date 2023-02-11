@@ -1,10 +1,10 @@
 package br.com.desafio.financeiro.model
 
-import java.time.LocalDate
+import java.sql.Date
 
 
 data class AuditDAO(
         val idCategory: Int? = null,
-        val startDate: LocalDate? = null,
-        val endDate: LocalDate? = null
+        val startDate: Date,
+        val endDate: Date
 )
