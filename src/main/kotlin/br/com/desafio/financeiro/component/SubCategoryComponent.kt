@@ -1,6 +1,8 @@
 package br.com.desafio.financeiro.component
 
 import br.com.desafio.financeiro.exception.CategoryCanNotBeDeletedException
+import br.com.desafio.financeiro.model.AccountEntryEntity
+import br.com.desafio.financeiro.model.SubCategoriesEntity
 import br.com.desafio.financeiro.repository.customRepository.SubCategoriesRepositoryImpl
 import br.com.desafio.financeiro.service.AccountEntryService
 import org.springframework.stereotype.Component
@@ -22,9 +24,16 @@ class SubCategoryComponent(
     fun getIdsToDeleteSubCategoriesFromCategory(idCategory: Int): MutableList<Int> {
         val accountEntries = accountEntryService.getAllAccountEntry()
         logger.info("action=FindingAllSubCategoriesByIdCategory")
-        val subCategories = subCategoriesRepositoryImpl.findAllByIdCategory(idCategory)
-        val idsToDelete: MutableList<Int> = mutableListOf()
+        val subCategories = getSubCategoriesByCategoryId(idCategory)
+        validateIfAccountEntryHasSubCategoryLinked(accountEntries, subCategories)
+        return getIdsToDelete(subCategories)
+    }
 
+    fun validateIfAccountEntryHasSubCategoryLinked(
+            accountEntries: MutableIterable<AccountEntryEntity>,
+            subCategories: MutableList<SubCategoriesEntity>
+    ) {
+        logger.info("action=VerifyingIfAccountEntryHasSubCategoryLinked")
         accountEntries.forEach { accountEntry ->
             run {
                 subCategories.forEach { subCategory ->
@@ -37,14 +46,20 @@ class SubCategoryComponent(
                 }
             }
         }
+    }
 
+    fun getIdsToDelete(subCategories: MutableList<SubCategoriesEntity>): MutableList<Int> {
         logger.info("action=BuildingListOfIdsToBeDeleted")
+        val idsToDelete: MutableList<Int> = mutableListOf()
         subCategories.forEach { subCategory ->
             run {
                 idsToDelete.add(subCategory.idSubCategory!!)
             }
         }
-
         return idsToDelete
+    }
+
+    fun getSubCategoriesByCategoryId(id: Int): MutableList<SubCategoriesEntity> {
+        return subCategoriesRepositoryImpl.findAllByIdCategory(id)
     }
 }

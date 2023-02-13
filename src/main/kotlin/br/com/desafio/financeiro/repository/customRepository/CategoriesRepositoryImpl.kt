@@ -4,7 +4,7 @@ import br.com.desafio.financeiro.configuration.MySqlConfiguration
 import br.com.desafio.financeiro.model.CategoriesEntity
 
 
-class CategoriesRepositoryImpl(
+open class CategoriesRepositoryImpl(
         mySqlConfiguration: MySqlConfiguration
 ) {
     private val connection = mySqlConfiguration.getConnection()

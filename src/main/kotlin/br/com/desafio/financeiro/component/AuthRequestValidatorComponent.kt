@@ -8,7 +8,7 @@ import java.util.logging.Logger
 @Component
 class AuthRequestValidatorComponent(
         @Value("\${api-key}")
-        val apiKey: String
+        val apiKey: String? = ""
 ) {
     val logger: Logger = Logger.getLogger(javaClass.name)
     fun validateApiKey(key: String) {

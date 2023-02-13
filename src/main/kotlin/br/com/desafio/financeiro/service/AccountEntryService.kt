@@ -1,12 +1,10 @@
 package br.com.desafio.financeiro.service
 
 import br.com.desafio.financeiro.component.AccountEntryComponent
-import br.com.desafio.financeiro.component.SubCategoryComponent
 import br.com.desafio.financeiro.exception.AccountEntryCreateException
 import br.com.desafio.financeiro.exception.AccountEntryNotFoundException
 import br.com.desafio.financeiro.model.AccountEntryEntity
 import br.com.desafio.financeiro.repository.AccountEntryRepository
-import br.com.desafio.financeiro.repository.customRepository.AccountEntryRepositoryImpl
 import org.jboss.logging.Logger
 import org.springframework.stereotype.Service
 
@@ -18,7 +16,8 @@ class AccountEntryService(
     val logger: Logger = Logger.getLogger(javaClass.name)
 
     fun createAccountEntry(accountEntry: AccountEntryEntity): AccountEntryEntity {
-        if (!accountEntryComponent.hasSubCategoryWithId(accountEntry.idSubCategory!!)){
+        logger.info("action=VerifyingIfHasSubCategoryWithId")
+        if (!accountEntryComponent.hasSubCategoryWithId(accountEntry.idSubCategory!!)) {
             throw AccountEntryCreateException()
         }
         return accountEntryRepository.save(accountEntry)

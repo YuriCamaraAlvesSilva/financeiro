@@ -3,7 +3,8 @@ package br.com.desafio.financeiro.controller.advice
 import br.com.desafio.financeiro.exception.*
 import br.com.desafio.financeiro.model.ErrorHandlingModel
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.http.HttpStatus.*
+import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MissingRequestHeaderException
@@ -16,39 +17,39 @@ class ControllerAdvice {
     @ExceptionHandler
     fun handlerIllegalStateException(ex: IllegalStateException): ResponseEntity<ErrorHandlingModel> {
         val errorMessage = ErrorHandlingModel(
-                NOT_FOUND.value(),
+                BAD_REQUEST.value(),
                 ex.message
         )
-        return ResponseEntity(errorMessage, NOT_FOUND)
+        return ResponseEntity(errorMessage, BAD_REQUEST)
     }
 
     @ExceptionHandler
     fun handlerCategoryNotFoundException(ex: CategoryNotFoundException): ResponseEntity<ErrorHandlingModel> {
         val errorMessage = ErrorHandlingModel(
-                NOT_FOUND.value(),
+                BAD_REQUEST.value(),
                 ex.message
         )
-        return ResponseEntity(errorMessage, NOT_FOUND)
+        return ResponseEntity(errorMessage, BAD_REQUEST)
     }
 
 
     @ExceptionHandler
     fun handlerAccountEntryNotFoundException(ex: AccountEntryNotFoundException): ResponseEntity<ErrorHandlingModel> {
         val errorMessage = ErrorHandlingModel(
-                NOT_FOUND.value(),
+                BAD_REQUEST.value(),
                 ex.message
         )
-        return ResponseEntity(errorMessage, NOT_FOUND)
+        return ResponseEntity(errorMessage, BAD_REQUEST)
     }
 
 
     @ExceptionHandler
     fun handlerSubCategoryNotFoundException(ex: SubCategoryNotFoundException): ResponseEntity<ErrorHandlingModel> {
         val errorMessage = ErrorHandlingModel(
-                NOT_FOUND.value(),
+                BAD_REQUEST.value(),
                 ex.message
         )
-        return ResponseEntity(errorMessage, NOT_FOUND)
+        return ResponseEntity(errorMessage, BAD_REQUEST)
     }
 
 
@@ -81,7 +82,7 @@ class ControllerAdvice {
     }
 
     @ExceptionHandler
-    fun handlerCategoryCreateException(ex: CategoryCreateException): ResponseEntity<ErrorHandlingModel> {
+    fun handlerCategoryAlreadyExistsException(ex: CategoryAlreadyExistsException): ResponseEntity<ErrorHandlingModel> {
         val errorMessage = ErrorHandlingModel(
                 BAD_REQUEST.value(),
                 ex.message

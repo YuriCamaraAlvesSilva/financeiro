@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 class AccountEntryComponent(
         val subCategoriesRepository: SubCategoriesRepository
 ) {
-    fun hasSubCategoryWithId(id:Int): Boolean {
+    fun hasSubCategoryWithId(id: Int): Boolean {
         return subCategoriesRepository.existsById(id)
     }
 }

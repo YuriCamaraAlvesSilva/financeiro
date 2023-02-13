@@ -1,6 +1,5 @@
 package br.com.desafio.financeiro.component
 
-import br.com.desafio.financeiro.exception.CategoryCreateException
 import br.com.desafio.financeiro.exception.CategoryNotFoundException
 import br.com.desafio.financeiro.model.CategoriesEntity
 import br.com.desafio.financeiro.repository.CategoriesRepository
@@ -14,6 +13,7 @@ class CategoryComponent(
         val categoriesRepository: CategoriesRepository
 ) {
     val logger: Logger = Logger.getLogger(javaClass.name)
+
     fun hasCategoryWithName(name: String): Boolean {
         logger.info("action=VerifyingIfHasNotCategoryWithTheName, name=$name")
         val category = categoriesRepositoryImpl.findByName(name)

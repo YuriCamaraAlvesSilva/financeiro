@@ -3,7 +3,6 @@ package br.com.desafio.financeiro.controller
 import br.com.desafio.financeiro.component.AuthRequestValidatorComponent
 import br.com.desafio.financeiro.model.SubCategoriesEntity
 import br.com.desafio.financeiro.service.SubCategoryService
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

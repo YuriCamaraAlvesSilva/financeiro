@@ -8,7 +8,7 @@ import java.util.*
 
 @Component
 class MySqlConfiguration(
-        @Value("\${database.url}") val databaseUrl: String = ""
+        @Value("\${database.url}") val databaseUrl: String? = ""
 ) {
     fun getConnection(): Connection {
         val properties = Properties()

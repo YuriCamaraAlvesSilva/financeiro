@@ -1,8 +1,7 @@
 package br.com.desafio.financeiro.service
 
 import br.com.desafio.financeiro.component.CategoryComponent
-import br.com.desafio.financeiro.component.SubCategoryComponent
-import br.com.desafio.financeiro.exception.CategoryCreateException
+import br.com.desafio.financeiro.exception.CategoryAlreadyExistsException
 import br.com.desafio.financeiro.model.CategoriesEntity
 import br.com.desafio.financeiro.repository.CategoriesRepository
 import org.springframework.stereotype.Service
@@ -12,17 +11,16 @@ import java.util.logging.Logger
 class CategoriesService(
         val categoriesRepository: CategoriesRepository,
         val categoryComponent: CategoryComponent,
-        val subCategoryComponent: SubCategoryComponent,
         val subCategoryService: SubCategoryService
 
 ) {
     val logger: Logger = Logger.getLogger(javaClass.name)
     fun createCategory(category: CategoriesEntity): CategoriesEntity {
-        if (categoryComponent.hasCategoryWithName(category.name)){
+        if (categoryComponent.hasCategoryWithName(category.name)) {
             logger.info("CategoryAlreadyExists, name=${category.name}")
-            throw CategoryCreateException()
+            throw CategoryAlreadyExistsException()
         }
-            logger.info("action=SavingNewCategory, name=${category.name}")
+        logger.info("action=SavingNewCategory, name=${category.name}")
         return categoriesRepository.save(category)
     }
 
@@ -43,7 +41,9 @@ class CategoriesService(
     }
 
     fun updateCategory(category: CategoriesEntity): CategoriesEntity {
-        categoryComponent.hasCategoryWithName(category.name)
+        if (categoryComponent.hasCategoryWithName(category.name)) {
+            throw CategoryAlreadyExistsException()
+        }
         getCategoryById(category.idCategory!!)
         logger.info("action=UpdatingCategory, name=${category.name}")
         return categoriesRepository.save(category)
